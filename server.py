@@ -12,7 +12,7 @@ def tts():
 
     subprocess.run([
         "piper",
-        "--model", "models/model.onnx",
+        "--model", "models/fr_FR-tom-medium.onnx",
         "--output", out
     ], input=text, text=True)
 
