@@ -5,14 +5,24 @@ import os
 
 app = Flask(__name__)
 
+MODELS = {
+    "fr": "models/fr_FR-tom-medium.onnx",
+    "ar": "models/ar_JO-kareem-medium.onnx"
+}
+
 @app.post("/tts")
 def tts():
-    text = request.json.get("text", "")
+    data = request.json
+    text = data.get("text", "")
+    lang = data.get("lang", "fr")  # "fr" par défaut
+
+    model = MODELS.get(lang, MODELS["fr"])
+
     out = f"{uuid.uuid4()}.wav"
 
     subprocess.run([
         "piper",
-        "--model", "models/fr_FR-tom-medium.onnx",
+        "--model", model,
         "--output", out
     ], input=text, text=True)
 
